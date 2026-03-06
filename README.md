@@ -15,18 +15,25 @@ npm install
 npm run build
 ```
 
-### 3. Configure Claude Desktop
+### 3. Get the absolute path to this repo
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```bash
+pwd
+# e.g. /home/youruser/redash-mcp
+```
+
+### 4. Configure Claude Desktop
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "redash": {
       "command": "node",
-      "args": ["/Users/sahilrajput/Documents/zingbus/redash-mcp/dist/index.js"],
+      "args": ["/absolute/path/to/redash-mcp/dist/index.js"],
       "env": {
-        "REDASH_BASE_URL": "https://reporter.zingmobility.com",
+        "REDASH_BASE_URL": "https://your-redash-instance.com",
         "REDASH_API_KEY": "your_api_key_here"
       }
     }
@@ -34,18 +41,26 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-### 4. Configure Claude Code
+Replace `/absolute/path/to/redash-mcp` with the output of `pwd` from step 3.
 
-Add to `~/.claude/mcp_config.json` (or run `claude mcp add`):
+### 5. Configure Claude Code
+
+Run from inside the repo directory:
+
+```bash
+claude mcp add redash -- node "$(pwd)/dist/index.js"
+```
+
+Then set the env vars in `~/.claude/mcp_config.json`:
 
 ```json
 {
   "mcpServers": {
     "redash": {
       "command": "node",
-      "args": ["/Users/sahilrajput/Documents/zingbus/redash-mcp/dist/index.js"],
+      "args": ["/absolute/path/to/redash-mcp/dist/index.js"],
       "env": {
-        "REDASH_BASE_URL": "https://reporter.zingmobility.com",
+        "REDASH_BASE_URL": "https://your-redash-instance.com",
         "REDASH_API_KEY": "your_api_key_here"
       }
     }
